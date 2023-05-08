@@ -1,4 +1,23 @@
 Rails.application.routes.draw do
+  # Routes for the City resource:
+
+  # CREATE
+  post("/insert_city", { :controller => "cities", :action => "create" })
+          
+  # READ
+  get("/cities", { :controller => "cities", :action => "index" })
+  
+  get("/cities/:path_id", { :controller => "cities", :action => "show" })
+  
+  # UPDATE
+  
+  post("/modify_city/:path_id", { :controller => "cities", :action => "update" })
+  
+  # DELETE
+  get("/delete_city/:path_id", { :controller => "cities", :action => "destroy" })
+
+  #------------------------------
+
   root to: "posts#index"
 
   # Routes for the Comment resource:

@@ -20,5 +20,20 @@ if Rails.env.development? || Rails.env.test?
         )
       end
     end
+
+    desc "Add cities"
+    task add_cities: :environment do
+      require "csv"
+
+      csv_text = File.read(Rails.root.join("lib", "sample_data", "cities.csv"))
+      csv = CSV.parse(csv_text, :headers => true, :encoding => "ISO-8859-1")
+      csv.each do |row|
+        city = City.find_or_create_by(
+          name: row.fetch("City"),
+          state_full: row.fetch("State full"),
+          state_short: row.fetch("State short"),
+        )
+      end
+    end
   end
 end
