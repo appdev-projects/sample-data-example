@@ -25,5 +25,22 @@ unless Rails.env.production?
       end
       puts "done"
     end
+
+    task add_cities: :environment do
+      puts "adding cities"
+
+      require "csv"
+
+      csv_text = File.read(Rails.root.join("lib", "sample_data", "cities.csv"))
+      csv = CSV.parse(csv_text, :headers => true, :encoding => "ISO-8859-1")
+      csv.each do |row|
+        # {"City"=>"Robbins", "State short"=>"IL", "State full"=>"Illinois", "County"=>"COOK", "City alias"=>"Robbins"}
+        City.find_or_create_by(
+          name: row.fetch("City"),
+          state_short: row.fetch("State short"),
+          state_full: row.fetch("State full"),
+        )
+      end
+    end
   end
 end
